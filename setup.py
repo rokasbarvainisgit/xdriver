@@ -17,7 +17,10 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/rokasbarvainisgit/xdriver.git",
     classifiers=[
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
