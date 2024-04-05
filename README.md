@@ -44,7 +44,7 @@ def test_example(driver):
     assert driver.check_if_elem_exists_by_locator((By.CSS_SELECTOR, "h1")), "h1 element was not found!"
 ```
 
-### Examples of Available Methods
+### Additional Information
 All available methods can be found in the `webdriver.py` file. Some examples:
 ```
 get_elem_by_locator()
@@ -60,7 +60,8 @@ from selenium.webdriver.common.by import By
 
 def test_example_default_webdriver(driver):
     """
-    Example of default Selenium WebDriver usage that tests if h1 element is displayed
+    Example of default Selenium WebDriver usage 
+    Tests if h1 element is displayed
     """
     driver.get("https://example.com/")
     h1 = driver.driver.find_element(By.CSS_SELECTOR, "h1")
