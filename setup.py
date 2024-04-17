@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="xdriver",
-    version="1.0.0",
+    version="1.1.0",
     packages=find_packages(include=["xdriver*"]),
     install_requires=[
         "pytest~=8.1.1",
