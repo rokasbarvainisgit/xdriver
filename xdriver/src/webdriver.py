@@ -1,4 +1,5 @@
 from selenium.common import StaleElementReferenceException, NoSuchElementException, TimeoutException
+from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
 from typing import List, Optional
@@ -65,7 +66,7 @@ class Driver(object):
         """
         self.driver.get(url)
 
-    def get_clickable_elem_by_locator(self, locator: tuple[str, str], timeout: int = None) -> WebElement:
+    def get_clickable_element(self, locator: tuple[str, str], timeout: int = None) -> WebElement:
         """
         Waits for element to become clickable and returns that element
 
@@ -81,7 +82,7 @@ class Driver(object):
         except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
             raise TimeoutException(f"Web element was not found! locator={locator}, Exception={e}")
 
-    def get_elem_by_locator(self, locator: tuple[str, str], timeout: int = None) -> WebElement:
+    def get_element(self, locator: tuple[str, str], timeout: int = None) -> WebElement:
         """
         Waits for element and returns that element
 
@@ -97,7 +98,7 @@ class Driver(object):
         except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
             raise TimeoutException(f"Web element was not found! locator={locator}, Exception={e}")
 
-    def check_if_elem_exists_by_locator(self, locator: tuple[str, str], timeout: int = None) -> bool:
+    def check_if_element_exists(self, locator: tuple[str, str], timeout: int = None) -> bool:
         """
         Checks if element exists by locator and returns a bool
 
@@ -109,12 +110,12 @@ class Driver(object):
         if timeout is None:
             timeout = self._default_timeout
         try:
-            self.get_elem_by_locator(locator=locator, timeout=timeout)
+            self.get_element(locator=locator, timeout=timeout)
         except TimeoutException:
             return False
         return True
 
-    def check_if_clickable_elem_exists_by_locator(self, locator: tuple[str, str], timeout: int = None) -> bool:
+    def check_if_clickable_element_exists(self, locator: tuple[str, str], timeout: int = None) -> bool:
         """
         Checks if clickable element exists by locator and returns a bool
 
@@ -126,7 +127,23 @@ class Driver(object):
         if timeout is None:
             timeout = self._default_timeout
         try:
-            self.get_elem_by_locator(locator=locator, timeout=timeout)
+            self.get_element(locator=locator, timeout=timeout)
         except TimeoutException:
             return False
         return True
+
+    def hover_over_element(self, locator: tuple[str, str], timeout: Optional[int] = 30) -> None:
+        """
+        Hovers over WebElement by locator
+
+        :param locator: tuple of (selector, value)
+        :param timeout: max time to wait for the WebElement before failing in seconds (Optional), default = 30
+        """
+        if timeout is None:
+            timeout = self._default_timeout
+        try:
+            (ActionChains(self.driver)
+             .move_to_element(WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator)))
+             .perform())
+        except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
+            raise TimeoutException(f"Web element was not found! locator={locator}, Exception={e}")
