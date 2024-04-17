@@ -41,16 +41,17 @@ def test_example(driver):
     Tests if the example page has the h1 WebElement
     """
     driver.get("https://example.com/")
-    assert driver.check_if_elem_exists_by_locator((By.CSS_SELECTOR, "h1")), "h1 element was not found!"
+    assert driver.check_if_element_exists((By.CSS_SELECTOR, "h1")), "h1 element was not found!"
 ```
 
 ### Additional Information
 All available methods can be found in the `webdriver.py` file. Some examples:
 ```
-get_elem_by_locator()
-get_clickable_elem_by_locator()
-check_if_elem_exists_by_locator()
-check_if_clickable_elem_exists_by_locator()
+get_element()
+get_clickable_element()
+check_if_element_exists()
+check_if_clickable_element_exists()
+hover_over_element()
 ...
 ```
 If you ever need to use the default selenium webdriver use `driver.driver`:
