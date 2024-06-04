@@ -56,6 +56,7 @@ class Driver(object):
         """
         Quit the webdriver
         """
+        self.driver.close()
         self.driver.quit()
 
     def get(self, url: str) -> None:
@@ -145,5 +146,21 @@ class Driver(object):
             (ActionChains(self.driver)
              .move_to_element(WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator)))
              .perform())
+        except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
+            raise TimeoutException(f"Web element was not found! locator={locator}, Exception={e}")
+
+    def get_elements(self, locator: tuple[str, str], timeout: int = 30) -> List[WebElement]:
+        """
+        Finds elements by locator
+
+        :param locator: elements locator
+        :param timeout: max time to wait for the WebElements in seconds (Optional), default = 30
+
+        :return: List[WebElement]
+        """
+        if timeout is None:
+            timeout = self._default_timeout
+        try:
+            return WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator))
         except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
             raise TimeoutException(f"Web element was not found! locator={locator}, Exception={e}")
