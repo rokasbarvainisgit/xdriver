@@ -16,7 +16,7 @@ def test_get_clickable_element(driver):
 
 def test_driver_check_if_element_exists(driver):
     driver.get(TEST_WEBSITE)
-    assert driver.check_if_element_exists((By.ID, "content")) is True, "Elem was not found!"
+    assert driver.check_if_element_exists((By.ID, "content")) is True, "WebElement was not found!"
 
 
 def test_check_if_clickable_element_exists(driver):
@@ -27,3 +27,8 @@ def test_check_if_clickable_element_exists(driver):
 def test_hover_over_element(driver):
     driver.get(TEST_WEBSITE)
     driver.hover_over_element((By.ID, "search"))
+
+
+def test_get_elements(driver):
+    driver.get(TEST_WEBSITE)
+    assert len(driver.get_elements((By.CSS_SELECTOR, "div"))) > 0, "No div WebElements were found!"
