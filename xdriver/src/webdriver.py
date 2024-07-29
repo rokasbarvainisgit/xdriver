@@ -1,11 +1,12 @@
 from selenium.common import StaleElementReferenceException, NoSuchElementException, TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.webdriver import WebDriver
-from webdriver_manager.chrome import ChromeDriverManager
 from typing import List, Optional
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -25,7 +26,7 @@ class Driver(object):
         """
         Initiates a custom webdriver.
 
-        :param webdriver_type: webdriver type (chromedriver, geckodriver, etc. currently supports: chromedriver)
+        :param webdriver_type: webdriver type (chromedriver, geckodriver, etc. currently supports: chromedriver, geckodriver)
         :param options: list of Webdriver options to be added
         :param default_timeout: default timeout for getting WebElements
         """
@@ -34,8 +35,15 @@ class Driver(object):
             if options:
                 for arg in options:
                     chromedriver_options.add_argument(arg)
-            self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),
+            self.driver = webdriver.Chrome(service=ChromeService(),
                                            options=chromedriver_options)
+        elif "geckodriver" in str(webdriver_type).lower():
+            geckodriver_options = FirefoxOptions()
+            if options:
+                for arg in options:
+                    geckodriver_options.add_argument(arg)
+            self.driver = webdriver.Firefox(service=FirefoxService(),
+                                            options=geckodriver_options)
         else:
             raise Exception(f"Provided Webdriver type was not recognised! {webdriver_type}")
         self.driver.set_page_load_timeout(120)
