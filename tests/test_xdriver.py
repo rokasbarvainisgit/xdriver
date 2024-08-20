@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-
+from xdriver.src.webdriver import XDriverException
 
 TEST_WEBSITE = "https://pypi.org"
 
@@ -37,3 +37,13 @@ def test_get_elements(chromedriver):
 def test_get_element_with_geckodriver(geckodriver):
     geckodriver.get(TEST_WEBSITE)
     geckodriver.get_element((By.ID, "search"))
+
+
+def test_xdriver_exceptions(chromedriver):
+    chromedriver.get(TEST_WEBSITE)
+    try:
+        chromedriver.get_element(locator=(By.ID, "incorrect_id"), timeout=1)
+    except XDriverException:
+        pass
+    else:
+        raise Exception("XDriverException was not thrown!")
