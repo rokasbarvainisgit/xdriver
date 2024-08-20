@@ -5,10 +5,10 @@ with open("README.md", "r") as f:
 
 setup(
     name="xdriver",
-    version="1.2.1",
+    version="1.2.2",
     packages=find_packages(include=["xdriver*"]),
     install_requires=[
-        "pytest~=8.1.1",
+        "pytest~=8.3.2",
         "selenium~=4.23.1"
     ],
     description="Expanded Selenium WebDriver",

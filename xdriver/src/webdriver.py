@@ -89,7 +89,7 @@ class Driver(object):
         try:
             return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
         except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
-            raise TimeoutException(f"Web element was not found! locator={locator}, Exception={e}")
+            raise XDriverException(f"Web element was not found! locator={locator}, Exception={e}")
 
     def get_element(self, locator: tuple[str, str], timeout: int = None) -> WebElement:
         """
@@ -105,7 +105,7 @@ class Driver(object):
         try:
             return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))
         except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
-            raise TimeoutException(f"Web element was not found! locator={locator}, Exception={e}")
+            raise XDriverException(f"Web element was not found! locator={locator}, Exception={e}")
 
     def check_if_element_exists(self, locator: tuple[str, str], timeout: int = None) -> bool:
         """
@@ -120,7 +120,7 @@ class Driver(object):
             timeout = self._default_timeout
         try:
             self.get_element(locator=locator, timeout=timeout)
-        except TimeoutException:
+        except XDriverException:
             return False
         return True
 
@@ -136,8 +136,8 @@ class Driver(object):
         if timeout is None:
             timeout = self._default_timeout
         try:
-            self.get_element(locator=locator, timeout=timeout)
-        except TimeoutException:
+            self.get_clickable_element(locator=locator, timeout=timeout)
+        except XDriverException:
             return False
         return True
 
@@ -155,7 +155,7 @@ class Driver(object):
              .move_to_element(WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator)))
              .perform())
         except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
-            raise TimeoutException(f"Web element was not found! locator={locator}, Exception={e}")
+            raise XDriverException(f"Web element was not found! locator={locator}, Exception={e}")
 
     def get_elements(self, locator: tuple[str, str], timeout: int = 30) -> List[WebElement]:
         """
@@ -171,4 +171,16 @@ class Driver(object):
         try:
             return WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator))
         except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
-            raise TimeoutException(f"Web element was not found! locator={locator}, Exception={e}")
+            raise XDriverException(f"Web element was not found! locator={locator}, Exception={e}")
+
+
+class XDriverException(Exception):
+    """
+    Exception raised for xDriver errors
+    """
+    def __init__(self, message: str):
+        """
+        :param message: exception message
+        """
+        self.message = message
+        super().__init__(self.message)
