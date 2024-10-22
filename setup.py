@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="xdriver",
-    version="1.2.2",
+    version="1.2.3",
     packages=find_packages(include=["xdriver*"]),
     install_requires=[
         "pytest~=8.3.2",
@@ -20,6 +20,7 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
