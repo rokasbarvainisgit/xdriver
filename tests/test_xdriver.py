@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from xdriver.src.webdriver import XDriverException
 
+
 TEST_WEBSITE = "https://pypi.org"
 
 
