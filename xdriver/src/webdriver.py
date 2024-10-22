@@ -89,7 +89,7 @@ class Driver(object):
         try:
             return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
         except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
-            raise XDriverException(f"Web element was not found! locator={locator}, Exception={e}")
+            raise XDriverException(f"Web element was not found! locator={locator}, Exception={repr(e)}")
 
     def get_element(self, locator: tuple[str, str], timeout: int = None) -> WebElement:
         """
@@ -105,7 +105,7 @@ class Driver(object):
         try:
             return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))
         except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
-            raise XDriverException(f"Web element was not found! locator={locator}, Exception={e}")
+            raise XDriverException(f"Web element was not found! locator={locator}, Exception={repr(e)}")
 
     def check_if_element_exists(self, locator: tuple[str, str], timeout: int = None) -> bool:
         """
@@ -155,7 +155,7 @@ class Driver(object):
              .move_to_element(WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator)))
              .perform())
         except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
-            raise XDriverException(f"Web element was not found! locator={locator}, Exception={e}")
+            raise XDriverException(f"Web element was not found! locator={locator}, Exception={repr(e)}")
 
     def get_elements(self, locator: tuple[str, str], timeout: int = 30) -> List[WebElement]:
         """
@@ -171,7 +171,7 @@ class Driver(object):
         try:
             return WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator))
         except (StaleElementReferenceException, NoSuchElementException, TimeoutException) as e:
-            raise XDriverException(f"Web element was not found! locator={locator}, Exception={e}")
+            raise XDriverException(f"Web element was not found! locator={locator}, Exception={repr(e)}")
 
 
 class XDriverException(Exception):
